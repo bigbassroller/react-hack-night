@@ -7,10 +7,11 @@ import { getData } from './data';
 class App extends Component {
   constructor(props){
     super(props);
-    
+   
     this.state = {
       data: [],
     }
+    this.handleResponse = this.handleResponse.bind(this);
   }
 
 
@@ -19,24 +20,24 @@ class App extends Component {
   }
 
   handleResponse(data) {
-    let firstItem = data.slice(0, 10);
-    console.log(firstItem);
-    firstItem.map(crime => {
-      return <li>{crime.address}</li>;
+    console.log(data);
+    let firstItem = data[0];
+    console.log(firstItem)
+    let address = firstItem.address;
+    this.setState({
+      data: address
     });
   }
 
   test() {
     const MYDATA = getData();
     MYDATA
-      .then(function (response) {
-       this.handleResponse(response.data);
+      .then(response => {
+        this.handleResponse(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
-
-    console.log(MYDATA);
   }
 
   render() {
@@ -46,7 +47,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
         </div>
-      <ul>{}</ul>
+      <ul>{this.state.data}</ul>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
